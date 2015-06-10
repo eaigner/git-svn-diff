@@ -15,7 +15,7 @@ var (
 	subRx     = regexp.MustCompile(`(?m:^\-{3}.*$)`)
 	nullRx    = regexp.MustCompile(`(?m:^(\-{3}\s\/dev\/null).*$)`)
 	indexRx   = regexp.MustCompile(`(?m:^index\s.*$)`)
-	diffGitRx = regexp.MustCompile(`(?m:^diff\s+\-\-git\s+(.*)$)`)
+	diffGitRx = regexp.MustCompile(`(?m:^diff\s\-\-git\s[^[:space:]]*)`)
 )
 
 func main() {
@@ -27,11 +27,11 @@ func main() {
 	diff := runCmd("git", "diff", "--no-prefix", os.Args[1])
 
 	// Rewrite the diff for SVN.
-	diff = addRx.ReplaceAllString(diff, "$0\t(working copy)")
-	diff = subRx.ReplaceAllString(diff, "$0\t("+rev+")")
-	diff = nullRx.ReplaceAllString(diff, "$1\t(revision 0)")
+	diff = addRx.ReplaceAllString(diff, "$0    (working copy)")
+	diff = subRx.ReplaceAllString(diff, "$0    (revision "+rev+")")
+	diff = nullRx.ReplaceAllString(diff, "$1    (revision 0)")
 	diff = indexRx.ReplaceAllString(diff, "===================================================================")
-	diff = diffGitRx.ReplaceAllString(diff, "Index: $1")
+	diff = diffGitRx.ReplaceAllString(diff, "Index:")
 
 	fmt.Print(diff)
 }
