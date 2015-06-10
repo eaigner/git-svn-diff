@@ -16,6 +16,7 @@ var (
 	nullRx    = regexp.MustCompile(`(?m:^(\-{3}\s\/dev\/null).*$)`)
 	indexRx   = regexp.MustCompile(`(?m:^index\s.*$)`)
 	diffGitRx = regexp.MustCompile(`(?m:^diff\s\-\-git\s[^[:space:]]*)`)
+	posRx     = regexp.MustCompile(`(?m:^@@ (.*) @@(.*)$)`)
 )
 
 func main() {
@@ -32,6 +33,7 @@ func main() {
 	diff = nullRx.ReplaceAllString(diff, "$1    (revision 0)")
 	diff = indexRx.ReplaceAllString(diff, "===================================================================")
 	diff = diffGitRx.ReplaceAllString(diff, "Index:")
+	diff = posRx.ReplaceAllString(diff, `@@ $1 @@`)
 
 	fmt.Print(diff)
 }
