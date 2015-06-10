@@ -1,0 +1,13 @@
+git-svn-diff
+
+Git command for creating SVN patches from Git.
+
+Install:
+
+	go get -u github.com/eaigner/git-svn-diff
+
+Usage:
+
+If you have $GOPATH/bin on your $PATH you can now invoke the command with
+
+	git svn-diff <commitish>
