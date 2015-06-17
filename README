@@ -10,4 +10,6 @@ Usage:
 
 If you have $GOPATH/bin on your $PATH you can now invoke the command with
 
-	git svn-diff <commitish>
+	git svn-diff <commitish> [ <svn-commitish> ]
+
+The first argument tells svn-diff which local commit do generate the diff against. The second argument is optional and tells svn-diff from which commit to derive the SVN revision. If omitted, will be the same as the first argument.

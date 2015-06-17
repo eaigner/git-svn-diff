@@ -24,7 +24,13 @@ func main() {
 		log.Fatal("please provide a commit-ish argument")
 	}
 
-	rev := strings.TrimSpace(runCmd("git", "svn", "find-rev", os.Args[1]))
+	// We can specify a 2nd argument to tell svn-diff where to find the SVN revision.
+	getRevFrom := os.Args[1]
+	if len(os.Args) > 2 {
+		getRevFrom = os.Args[2]
+	}
+
+	rev := strings.TrimSpace(runCmd("git", "svn", "find-rev", getRevFrom))
 	diff := runCmd("git", "diff", "--no-prefix", os.Args[1])
 
 	// Rewrite the diff for SVN.
